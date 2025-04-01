@@ -28,6 +28,9 @@ spec:
               value: "postgres"
           ports:
             - containerPort: 8069
+          volumeMounts:
+          - name: www
+            mountPath: /var/lib/odoo/
   volumeClaimTemplates:
   - metadata:
       name: www
