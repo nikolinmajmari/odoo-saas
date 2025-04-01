@@ -1,27 +1,42 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: {{ .Values.name }}
   namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.name }}
 spec:
-  containers:
-    - name: {{ .Values.name }}
-      image: nikolinmajmari/{{ .Values.image }}:{{ .Values.version }}
-      env:
-        - name: ODOO_CMD_ARGS
-          value: ""
-        - name: POSTGRES_DB
-          value: "postgres"
-        - name: POSTGRES_USER
-          value: "odoo"
-        - name: POSTGRES_PASSWORD
-          value: "odoo"
-        - name: HOST
-          value: "postgres"
-      ports:
-        - containerPort: 8069
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: nikolinmajmari/{{ .Values.image }}:{{ .Values.version }}
+          env:
+            - name: ODOO_CMD_ARGS
+              value: ""
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "odoo"
+            - name: POSTGRES_PASSWORD
+              value: "odoo"
+            - name: HOST
+              value: "postgres"
+          ports:
+            - containerPort: 8069
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "my-storage-class"
+      resources:
+        requests:
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
