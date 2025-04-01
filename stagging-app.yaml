@@ -1,7 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: saas
+  name: saas-1-preview
+  namespace: argocd
+  labels:
+    name: stagging
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -13,10 +16,10 @@ spec:
         requeueAfterSeconds: 60
   template:
     metadata:
-      name: 'odoo-estate-{{.branch}}-{{.number}}'
+      name: 'saas-1-{{.branch}}-{{.number}}'
     spec:
       destination:
-        namespace: 'preview-{{.branch}}'
+        namespace: 'saas-1-{{.branch}}'
         server: 'https://kubernetes.default.svc'
       project: default
       source:
@@ -26,9 +29,9 @@ spec:
         helm:
           parameters:
             - name: namespace
-              value: 'preview-{{.branch}}'
+              value: 'saas-1-{{.branch}}'
             - name: version
-              value: 'latest'
+              value: '{{.head_sha}}'
             - name: image
               value: odoo_estate
             - name: name
