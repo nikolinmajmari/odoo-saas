@@ -4,7 +4,7 @@ metadata:
   name: saas-1-preview
   namespace: argocd
   labels:
-    name: stagging
+    app.kubernetes.io/name: saas-stagging
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
