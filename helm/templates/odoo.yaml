@@ -44,7 +44,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: "my-storage-class"
+  storageClassName: "standard"  # Minikube's default storage class
   resources:
     requests:
       storage: 1Gi
