@@ -1,4 +1,4 @@
-namespace: saas-dev
+namespace: saas
 version: latest
 image: odoo_estate
-name: saas-dev
+name: saas

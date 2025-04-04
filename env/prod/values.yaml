@@ -1,0 +1,4 @@
+namespace: saas-prod
+version: latest
+image: odoo_estate
+name: saas-prod
