@@ -19,10 +19,10 @@ spec:
         url: https://kubernetes.default.svc
   template:
     metadata:
-      name: 'saas-1-{{.branch}}-{{.number}}'
+      name: 'saas-1-env-{{.name}}-{{.number}}'
     spec:
       destination:
-        namespace: 'saas-1-{{.branch}}'
+        namespace: 'saas-1-env{{.name}}'
         server: 'https://kubernetes.default.svc'
       project: default
       source:
@@ -32,9 +32,9 @@ spec:
         helm:
           parameters:
             - name: namespace
-              value: 'saas-1-{{.branch}}'
+              value: 'saas-1-{{.name}}'
             - name: version
-              value: '{{.head_sha}}'
+              value: 'latest'
             - name: image
               value: odoo_estate
             - name: name
