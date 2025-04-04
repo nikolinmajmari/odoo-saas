@@ -4,7 +4,7 @@ metadata:
   name: saas-1-env
   namespace: argocd
   labels:
-    app.kubernetes.io/name: saas-stagging
+    app.kubernetes.io/name: saas-env
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -19,10 +19,10 @@ spec:
         url: https://kubernetes.default.svc
   template:
     metadata:
-      name: 'saas-1-env-{{.name}}-{{.number}}'
+      name: 'saas-1-env-{{ .cluster }}'
     spec:
       destination:
-        namespace: 'saas-1-env{{.name}}'
+        namespace: 'saas-1-env-{{ .cluster }}'
         server: 'https://kubernetes.default.svc'
       project: default
       source:
@@ -32,7 +32,7 @@ spec:
         helm:
           parameters:
             - name: namespace
-              value: 'saas-1-{{.name}}'
+              value: 'saas-1-env-{{ .cluster }}'
             - name: version
               value: 'latest'
             - name: image
