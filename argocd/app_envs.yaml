@@ -21,7 +21,7 @@ spec:
         server: 'https://kubernetes.default.svc'
       project: saas-project
       source:
-        path: helm/templates
+        path: helm
         repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
         helm:
           valueFiles:
