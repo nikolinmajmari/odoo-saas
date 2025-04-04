@@ -15,7 +15,7 @@ spec:
     helm:
       parameters:
         - name: api.adminAccount.passwordHash
-          value: '$$2a$10$Zrhhie4vLz5ygtVSaif6o.qN36jgs6vjtMBdM6yrU1FOeiAAMMxOm'
+          value: '$2a$10$Zrhhie4vLz5ygtVSaif6o.qN36jgs6vjtMBdM6yrU1FOeiAAMMxOm'
           # Note: A bcrypt-hashed password will contain `$` characters that
           # MUST each be escaped as `$$`
           # p6LjXDAOtfv4sQ48yjDuVlGlpMp1y1ka
