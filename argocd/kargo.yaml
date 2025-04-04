@@ -18,7 +18,7 @@ spec:
           # Note: A bcrypt-hashed password will contain `$` characters that
           # MUST each be escaped as `$$`
           # p6LjXDAOtfv4sQ48yjDuVlGlpMp1y1ka
-          value: $2y$10$a/wuqfRxaZqddVvz4pP6suIC4tqw0x81JKr0ljEGsGt5hYrNPCdhy
+          value: $$2y$$10$$a/wuqfRxaZqddVvz4pP6suIC4tqw0x81JKr0ljEGsGt5hYrNPCdhy
         - name: api.adminAccount.tokenSigningKey
           value: uybVfoueYyUPJHNCExR36XT7YzvNQ04O
   syncPolicy:
