@@ -2,13 +2,13 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: PromotionTask
 metadata:
   name: promote
-  namespace: kargo-helm
+  namespace: saas
 spec:
   vars:
   - name: image
-    value: ghcr.io/akuity/guestbook
+    value: docker.io/nikolinmajmari/odoo_estate
   - name: repoURL
-    value: https://github.com/akuity/kargo-helm.git
+    value: 'https://github.com/nikolinmajmari/odoo-saas.git'
   - name: branch
     value: main
   - name: envPath
