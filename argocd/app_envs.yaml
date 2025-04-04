@@ -18,7 +18,7 @@ spec:
     spec:
       destination:
         namespace: saas-{{path.basename}}
-        name: demo
+        name: 'https://kubernetes.default.svc'
       project: saas-project
       source:
         path: helm/templates
