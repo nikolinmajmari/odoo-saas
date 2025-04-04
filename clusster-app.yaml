@@ -1,39 +1,46 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: guestbook
+  name: saas-1-preview
   namespace: argocd
+  labels:
+    app.kubernetes.io/name: saas-stagging
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-  - clusters: {} # Automatically use all clusters defined within Argo CD
+  - list:
+      elements:
+      - cluster: dev
+        url: https://kubernetes.default.svc
+      - cluster: stagging
+        url: https://kubernetes.default.svc
+      - cluster: prod
+        url: https://kubernetes.default.svc
   template:
     metadata:
-      name: 'saas-{{.name}}' # 'name' field of the Secret
+      name: 'saas-1-{{.branch}}-{{.number}}'
     spec:
-      project: "my-project"
+      destination:
+        namespace: 'saas-1-{{.branch}}'
+        server: 'https://kubernetes.default.svc'
+      project: default
       source:
         repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
         targetRevision: HEAD
         path: helm
-        helm: 
+        helm:
           parameters:
             - name: namespace
-              value: saas-{{.name}}
+              value: 'saas-1-{{.branch}}'
             - name: version
-              value: 'latest'
+              value: '{{.head_sha}}'
             - name: image
               value: odoo_estate
             - name: name
-              value: saas-{{.name}}
-      destination:
-        server: {{.server}} # 'server' field of the secret
-        namespace: {{.name}}
-      syncPolicy:
-        automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
-          prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
-          selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
-          allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
-        syncOptions:     # Sync options which modifies sync behavior
-        - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+              value: saas
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
