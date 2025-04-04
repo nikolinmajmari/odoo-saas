@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: saas-1-preview
+  name: saas-1-env
   namespace: argocd
   labels:
     app.kubernetes.io/name: saas-stagging
