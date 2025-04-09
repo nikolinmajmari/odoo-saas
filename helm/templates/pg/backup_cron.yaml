@@ -9,6 +9,7 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: "OnFailure"
           containers:
           - name: postgresql-backup
             image: postgres:13  # Choose an appropriate version
