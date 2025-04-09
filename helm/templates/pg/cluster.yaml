@@ -1,0 +1,41 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgresql-cluster
+spec:
+  instances: 1
+
+  # Example of rolling update strategy:
+  # - unsupervised: automated update of the primary once all
+  #                 replicas have been upgraded (default)
+  # - supervised: requires manual supervision to perform
+  #               the switchover of the primary
+  primaryUpdateStrategy: unsupervised
+
+  # Require 1Gi of space
+  storage:
+    size: 1Gi
+    volumeClaimTemplate:
+      metadata:
+        name: postgresql-cluster-pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce:
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: standard
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-cluster-service
+  namespace: default
+spec:
+  selector:
+    app: postgresql-cluster  # Ensure this matches the label selector of your cluster's pods
+  ports:
+    - protocol: TCP
+      port: 5432  # Default PostgreSQL port
+      targetPort: 5432
+  clusterIP: None  # Set this to None for a headless service (optional for StatefulSet)
