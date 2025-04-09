@@ -1,9 +1,9 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cluster-example
+  name: postgresql-cluster
 spec:
-  instances: 3
+  instances: 1
 
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
