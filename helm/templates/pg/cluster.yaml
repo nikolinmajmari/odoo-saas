@@ -26,17 +26,3 @@ spec:
           requests:
             storage: 1Gi
         storageClassName: standard
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgresql-cluster-service
-  namespace:  {{ .Values.namespace }}
-spec:
-  selector:
-    app: postgresql-cluster  # Ensure this matches the label selector of your cluster's pods
-  ports:
-    - protocol: TCP
-      port: 5432  # Default PostgreSQL port
-      targetPort: 5432
-  clusterIP: None  # Set this to None for a headless service (optional for StatefulSet)
