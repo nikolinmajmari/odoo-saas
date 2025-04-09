@@ -1,0 +1,42 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: promote
+  namespace: saas
+spec:
+  vars:
+  - name: repoURL
+    value: 'https://{{ vars.secret }}@github.com/nikolinmajmari/odoo-saas.git'
+  - name: branch
+    value: main
+  - name: image
+    value: docker.io/nikolinmajmari/odoo_estate
+  steps:
+  # Clone the Git repository that contains the Kustomize configuration
+  # to the ./src directory, and the environment configuration to ./out.
+  steps:
+  - uses: git-clone
+    config:
+      repoURL: ${{ vars.repoURL }}
+      checkout:
+      - branch: ${{ vars.branch }}
+        path: ./out
+  - uses: yaml-update
+    as: update-image
+    config:
+      path: ./out/${{ vars.envPath }}/values.yaml
+      updates:
+      - key: image.tag
+        value: ${{ imageFrom( vars.image ).Tag }}
+  - uses: git-commit
+    as: commit
+    config:
+      path: ./out
+      message: ${{ task.outputs['update-image'].commitMessage }}
+  - uses: git-push
+    config:
+      path: ./out
+  - uses: argocd-update
+    config:
+      apps:
+      - name: ${{ vars.argocdApp }}

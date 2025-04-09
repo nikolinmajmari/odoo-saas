@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: saas
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+      revision: HEAD
+      directories:
+      - path: env/*
+  template:
+    metadata:
+      name: saas-{{path.basename}}
+      annotations:
+        kargo.akuity.io/authorized-stage: saas:{{path.basename}}
+    spec:
+      destination:
+        namespace: saas-{{path.basename}}
+        server: 'https://kubernetes.default.svc'
+      project: saas
+      source:
+        path: helm
+        repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+        helm:
+          valueFiles:
+          - "/env/{{path.basename}}/values.yaml"

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: nikolinmajmari/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          env:
+            - name: ODOO_CMD_ARGS
+              value: ""
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "odoo"
+            - name: POSTGRES_PASSWORD
+              value: "odoo"
+            - name: HOST
+              value: "postgres"
+          ports:
+            - containerPort: 8069
+          volumeMounts:
+            - name: www
+              mountPath: /var/lib/odoo/
+      volumes:
+        - name: www
+          persistentVolumeClaim:
+            claimName: www-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: www-pvc
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: "standard"  # Minikube's default storage class
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}-service
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.name }} 
+  ports:
+    - protocol: TCP
+      port: 8069
+      targetPort: 8069

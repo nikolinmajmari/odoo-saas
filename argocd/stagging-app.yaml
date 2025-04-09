@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: saas-1-preview
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: saas-stagging
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - pullRequest:
+        github:
+          owner: nikolinmajmari
+          repo: odoo_estate_tutorial
+        requeueAfterSeconds: 60
+  template:
+    metadata:
+      name: 'saas-1-{{.branch}}-{{.number}}'
+    spec:
+      destination:
+        namespace: 'saas-1-{{.branch}}'
+        server: 'https://kubernetes.default.svc'
+      project: default
+      source:
+        repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+        targetRevision: HEAD
+        path: helm
+        helm:
+          parameters:
+            - name: namespace
+              value: 'saas-1-{{.branch}}'
+            - name: version
+              value: 'latest'
+            - name: image
+              value: odoo_estate
+            - name: name
+              value: saas
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

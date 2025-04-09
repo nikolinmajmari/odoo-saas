@@ -1,0 +1,6 @@
+namespace: saas-dev
+version: latest
+image: 
+  name: odoo_estate
+  tag: 0.0.4-pr2
+name: saas-dev

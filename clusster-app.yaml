@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: saas-1-env
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: saas-env
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - cluster: dev
+        url: https://kubernetes.default.svc
+      - cluster: stagging
+        url: https://kubernetes.default.svc
+      - cluster: prod
+        url: https://kubernetes.default.svc
+  template:
+    metadata:
+      name: 'saas-1-env-{{ .cluster }}'
+    spec:
+      destination:
+        namespace: 'saas-1-env-{{ .cluster }}'
+        server: 'https://kubernetes.default.svc'
+      project: default
+      source:
+        repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
+        targetRevision: HEAD
+        path: helm
+        helm:
+          parameters:
+            - name: namespace
+              value: 'saas-1-env-{{ .cluster }}'
+            - name: version
+              value: 'latest'
+            - name: image
+              value: odoo_estate
+            - name: name
+              value: saas
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

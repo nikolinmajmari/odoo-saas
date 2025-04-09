@@ -1,0 +1,6 @@
+namespace: saas
+version: latest
+image: 
+  name: odoo_estate
+  tag: latest 
+name: saas
