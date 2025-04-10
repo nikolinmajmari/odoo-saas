@@ -27,8 +27,14 @@ spec:
             storage: 1Gi
         storageClassName: standard
   backup:
-    target: "primary"
-    volume:
+    target: 'primary'
+    localObjectStore:
+      path: "/var/lib/postgresql/backup"
+  volumeMounts:
+    - name: postgresql-backup-pvc
+      mountPath: "/var/lib/postgresql/backup"
+  volumes:
+    - name: postgresql-backup-pvc
       persistentVolumeClaim:
         claimName: postgresql-backup-pvc
     
