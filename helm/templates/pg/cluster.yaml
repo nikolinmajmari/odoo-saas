@@ -28,4 +28,7 @@ spec:
         storageClassName: standard
   backup:
     target: "primary"
+    volume:
+      persistentVolumeClaim:
+        claimName: postgresql-backup-pvc
     
