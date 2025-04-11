@@ -27,9 +27,16 @@ spec:
             storage: 1Gi
         storageClassName: standard
   backup:
-    target: 'primary'
-    volumeSnapshot:
-       className: standart
+    barmanObjectStore:
+      destinationPath: s3://saas-prod-bucker/
+      endpointURL: http://minio-service:9000
+      s3Credentials:
+        accessKeyId:
+          name: minio-creds
+          key: k5tXaoq7sruIe7S1vTkM
+        secretAccessKey:
+          name: minio-creds
+          key: gtzZwYUsfbhQJiuzVYEbdmC4N8jMDayteBzMPyLh
   volumeMounts:
     - name: postgresql-backup-pvc
       mountPath: "/var/lib/postgresql/backup"
