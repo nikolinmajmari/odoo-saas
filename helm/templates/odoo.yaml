@@ -25,7 +25,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: "odoo"
             - name: HOST
-              value: "postgres"
+              value: "postgresql-cluster-rw"
           ports:
             - containerPort: 8069
           volumeMounts:
