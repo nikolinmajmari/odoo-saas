@@ -21,9 +21,15 @@ spec:
             - name: POSTGRES_DB
               value: "postgres"
             - name: POSTGRES_USER
-              value: "odoo"
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-cluster-app  # Secret name
+                  key: username    # Key in the secret
             - name: POSTGRES_PASSWORD
-              value: "odoo"
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-cluster-app  # Secret name
+                  key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
           ports:
