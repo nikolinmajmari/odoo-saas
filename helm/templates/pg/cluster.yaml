@@ -5,7 +5,7 @@ metadata:
   namespace:  {{ .Values.namespace }}
 spec:
   instances: 1
-
+  method: volumeSnapshot
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
@@ -28,8 +28,8 @@ spec:
         storageClassName: standard
   backup:
     target: 'primary'
-    localObjectStore:
-      path: "/var/lib/postgresql/backup"
+    volumeSnapshot:
+       className: standart
   volumeMounts:
     - name: postgresql-backup-pvc
       mountPath: "/var/lib/postgresql/backup"

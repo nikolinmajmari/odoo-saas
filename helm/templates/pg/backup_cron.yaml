@@ -6,5 +6,6 @@ metadata:
 spec:
   schedule: "0 * * * * *"
   backupOwnerReference: self
+  method: volumeSnapshot
   cluster:
     name: postgresql-cluster
