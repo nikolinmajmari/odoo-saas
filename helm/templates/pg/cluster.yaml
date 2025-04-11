@@ -32,11 +32,11 @@ spec:
       endpointURL: http://minio-service:9000
       s3Credentials:
         accessKeyId:
-          name: minio-creds
-          key: k5tXaoq7sruIe7S1vTkM
+          name: minio-creds  # Secret name
+          key: access-key     # Key inside the secret
         secretAccessKey:
-          name: minio-creds
-          key: gtzZwYUsfbhQJiuzVYEbdmC4N8jMDayteBzMPyLh
+          name: minio-creds  # Secret name
+          key: secret-key    # Key inside the secret
   volumeMounts:
     - name: postgresql-backup-pvc
       mountPath: "/var/lib/postgresql/backup"
