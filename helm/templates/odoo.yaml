@@ -21,24 +21,25 @@ spec:
             - name: USER
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-cluster-odoo  # Secret name
+                  name: postgresql-cluster-app  # Secret name
                   key: username    # Key in the secret
             - name: PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-cluster-odoo  # Secret name
+                  name: postgresql-cluster-app  # Secret name
                   key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
           ports:
             - containerPort: 8069
-          # volumeMounts:
-          #   - name: www
-          #     mountPath: /var/lib/odoo/
-      # volumes:
-      #   - name: www
-      #     persistentVolumeClaim:
-      #       claimName: www-pvc
+{{- if .Values.isProduction }}
+          volumeMounts:
+            - name: www
+              mountPath: /var/lib/odoo/
+      volumes:
+        - name: www
+          persistentVolumeClaim:
+            claimName: www-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -52,8 +53,8 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
 ---
+{{- end }}
 apiVersion: v1
 kind: Service
 metadata:

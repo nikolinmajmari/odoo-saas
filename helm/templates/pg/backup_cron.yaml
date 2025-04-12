@@ -1,3 +1,4 @@
+{{- if .Values.isProduction }}
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
@@ -8,3 +9,4 @@ spec:
   backupOwnerReference: self
   cluster:
     name: postgresql-cluster
+{{- end}}

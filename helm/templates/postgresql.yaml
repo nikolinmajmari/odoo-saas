@@ -1,56 +1,56 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: postgres
-  namespace: {{ .Values.namespace }}
-spec:
-  selector:
-    matchLabels:
-      app: postgres
-  template:
-    metadata:
-      labels:
-        app: postgres
-    spec:
-      containers:
-        - name: postgres
-          image: postgres:13
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_DB
-              value: "postgres"
-            - name: POSTGRES_USER
-              value: "odoo"
-            - name: POSTGRES_PASSWORD
-              value: "odoo"
-          volumeMounts:
-            - name: postgres-data
-              mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: postgres-data
-          persistentVolumeClaim:
-            claimName: postgres-pvc  # Name of the PVC you’ll create
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pvc
-  namespace: {{ .Values.namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi  # Adjust size based on your requirements
-  storageClassName: standard  # Adjust based on your storage class
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-  namespace: {{ .Values.namespace }}
-spec:
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: postgres
+#   namespace: {{ .Values.namespace }}
+# spec:
+#   selector:
+#     matchLabels:
+#       app: postgres
+#   template:
+#     metadata:
+#       labels:
+#         app: postgres
+#     spec:
+#       containers:
+#         - name: postgres
+#           image: postgres:13
+#           ports:
+#             - containerPort: 5432
+#           env:
+#             - name: POSTGRES_DB
+#               value: "postgres"
+#             - name: POSTGRES_USER
+#               value: "odoo"
+#             - name: POSTGRES_PASSWORD
+#               value: "odoo"
+#           volumeMounts:
+#             - name: postgres-data
+#               mountPath: /var/lib/postgresql/data
+#       volumes:
+#         - name: postgres-data
+#           persistentVolumeClaim:
+#             claimName: postgres-pvc  # Name of the PVC you’ll create
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: postgres-pvc
+#   namespace: {{ .Values.namespace }}
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 10Gi  # Adjust size based on your requirements
+#   storageClassName: standard  # Adjust based on your storage class
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: postgres
+#   namespace: {{ .Values.namespace }}
+# spec:
   selector:
     app: postgres
   ports:

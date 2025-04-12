@@ -21,7 +21,7 @@ spec:
         owner: odoo
         name: postgresql-cluster-odoo
         postInitSQL:
-        - ALTER USER odoo WITH PASSWORD 'odoo'
+        - GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO odoo
         - ALTER ROLE odoo CREATEDB
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
@@ -33,16 +33,18 @@ spec:
   # Require 1Gi of space
   storage:
     size: 1Gi
-    # volumeClaimTemplate:
-    #   metadata:
-    #     name: postgresql-cluster-pvc
-    #   spec:
-    #     accessModes:
-    #       - ReadWriteOnce:
-    #     resources:
-    #       requests:
-    #         storage: 1Gi
-    #     storageClassName: standard
+    {{- if .Values.isProduction }}
+    volumeClaimTemplate:
+      metadata:
+        name: postgresql-cluster-pvc
+      spec:
+        accessModes:
+          - ReadWriteOnce:
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: standard
+    {{- end }}
   backup:
     barmanObjectStore:
       destinationPath: s3://saas-prod-bucket/

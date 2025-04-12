@@ -1,3 +1,6 @@
+isProduction: false
+isStagging: false
+isDev: true
 namespace: saas-dev
 version: latest
 image: 
