@@ -18,7 +18,7 @@ spec:
           command:
             - /bin/sh
             - -c
-            - "until nc -z -v -w30 postgresql-cluster-pvc-rw 5432; do echo 'Waiting for database...'; sleep 5; done;"
+            - "until nc -z -v -w30 postgresql-cluster-rw 5432; do echo 'Waiting for database...'; sleep 5; done;"
       
       containers:
         - name: {{ .Values.name }}
