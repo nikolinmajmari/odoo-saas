@@ -7,6 +7,7 @@ spec:
   instances: 1
   enableSuperuserAccess: true
   bootstrap:
+{{- if .Values.isProduction }}
     initdb:
       secret:
         name: postgresql-cluster-odoo
@@ -15,7 +16,7 @@ spec:
       - GRANT ALL ON SCHEMA public TO odoo
       - ALTER ROLE odoo with CREATEDB
       - ALTER ROLE odoo with CREATEROLE
-{{- if .Values.isStagging }}
+{{- else }}
     recovery:
       backup:
         name: postgress-backup
