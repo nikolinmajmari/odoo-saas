@@ -15,6 +15,11 @@ spec:
       - GRANT ALL ON SCHEMA public TO odoo
       - ALTER ROLE odoo with CREATEDB
       - ALTER ROLE odoo with CREATEROLE
+{{- if .Values.isStagging }}
+    recovery:
+      backup:
+        name: postgress-backup
+{{- end}}
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
