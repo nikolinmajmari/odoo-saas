@@ -19,7 +19,10 @@ spec:
   bootstrap:
     initdb:
       secret:
+        owner: odoo
         name: postgresql-cluster-odoo
+        postInitSQL:
+        - ALTER ROLE odoo WITH SUPERUSER
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
