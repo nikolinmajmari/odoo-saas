@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: postgresql-cluster-odoo
+  namespace: saas-prod
 type: Opaque
 stringData:
   username: odoo
@@ -20,7 +21,7 @@ spec:
       database: ""
       owner: odoo
       secret:
-        name: postgresql-cluster-app
+        name: postgresql-cluster-odoo
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
