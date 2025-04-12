@@ -5,11 +5,6 @@ metadata:
   namespace:  {{ .Values.namespace }}
 spec:
   instances: 1
-  postgresql:
-    version: "14"
-    # Specify the default user and password for the PostgreSQL cluster
-    user: "odoo"
-    password: "odoo"  # set the password for the user
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)

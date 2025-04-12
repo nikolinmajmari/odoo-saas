@@ -18,20 +18,16 @@ spec:
           env:
             - name: ODOO_CMD_ARGS
               value: ""
-            - name: DB
-              value: "postgres"
             - name: USER
-              value: odoo
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: postgresql-cluster-app  # Secret name
-              #     key: username    # Key in the secret
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-cluster-app  # Secret name
+                  key: username    # Key in the secret
             - name: PASSWORD
-              value: odoo
-              # valueFrom:
-              #   secretKeyRef:
-              #     name: postgresql-cluster-app  # Secret name
-              #     key: password    # Key in the secret
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-cluster-app  # Secret name
+                  key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
           ports:
