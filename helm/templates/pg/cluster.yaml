@@ -8,6 +8,7 @@ spec:
   enableSuperuserAccess: true
   bootstrap:
     initdb:
+      database: ""
       secret:
         name: postgresql-cluster-app
   # Example of rolling update strategy:
@@ -41,11 +42,11 @@ spec:
         secretAccessKey:
           name: minio-creds  # Secret name
           key: secret-key    # Key inside the secret
-  volumeMounts:
-    - name: postgresql-backup-pvc
-      mountPath: "/var/lib/postgresql/backup"
-  volumes:
-    - name: postgresql-backup-pvc
-      persistentVolumeClaim:
-        claimName: postgresql-backup-pvc
+  # volumeMounts:
+  #   - name: postgresql-backup-pvc
+  #     mountPath: "/var/lib/postgresql/backup"
+  # volumes:
+  #   - name: postgresql-backup-pvc
+  #     persistentVolumeClaim:
+  #       claimName: postgresql-backup-pvc
     
