@@ -40,29 +40,29 @@ spec:
               value: "postgresql-cluster-rw"
           ports:
             - containerPort: 8069
-{{- if .Values.isProduction }}
-          volumeMounts:
-            - name: www
-              mountPath: /var/lib/odoo/
-      volumes:
-        - name: www
-          persistentVolumeClaim:
-            claimName: www-pvc
+# {{- if .Values.isProduction }}
+#           volumeMounts:
+#             - name: www
+#               mountPath: /var/lib/odoo/
+#       volumes:
+#         - name: www
+#           persistentVolumeClaim:
+#             claimName: www-pvc
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: www-pvc
+#   namespace: {{ .Values.namespace }}
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: "standard"  # Minikube's default storage class
+#   resources:
+#     requests:
+#       storage: 1Gi
+# {{- end }}
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: www-pvc
-  namespace: {{ .Values.namespace }}
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: "standard"  # Minikube's default storage class
-  resources:
-    requests:
-      storage: 1Gi
----
-{{- end }}
 apiVersion: v1
 kind: Service
 metadata:
