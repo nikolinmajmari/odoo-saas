@@ -21,6 +21,7 @@ spec:
         owner: odoo
         name: postgresql-cluster-odoo
         postInitSQL:
+        - ALTER USER odoo WITH PASSWORD 'odoo'
         - ALTER ROLE odoo CREATEDB
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
