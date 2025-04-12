@@ -21,12 +21,12 @@ spec:
             - name: USER
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-cluster-app  # Secret name
+                  name: postgresql-cluster-odoo  # Secret name
                   key: username    # Key in the secret
             - name: PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql-cluster-app  # Secret name
+                  name: postgresql-cluster-odoo  # Secret name
                   key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
