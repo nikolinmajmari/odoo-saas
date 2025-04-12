@@ -34,13 +34,13 @@ spec:
               value: "postgresql-cluster-rw"
           ports:
             - containerPort: 8069
-          volumeMounts:
-            - name: www
-              mountPath: /var/lib/odoo/
-      volumes:
-        - name: www
-          persistentVolumeClaim:
-            claimName: www-pvc
+          # volumeMounts:
+          #   - name: www
+          #     mountPath: /var/lib/odoo/
+      # volumes:
+      #   - name: www
+      #     persistentVolumeClaim:
+      #       claimName: www-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
