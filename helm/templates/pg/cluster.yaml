@@ -18,8 +18,6 @@ spec:
   enableSuperuserAccess: true
   bootstrap:
     initdb:
-      database: ""
-      owner: odoo
       secret:
         name: postgresql-cluster-odoo
   # Example of rolling update strategy:
@@ -32,16 +30,16 @@ spec:
   # Require 1Gi of space
   storage:
     size: 1Gi
-    volumeClaimTemplate:
-      metadata:
-        name: postgresql-cluster-pvc
-      spec:
-        accessModes:
-          - ReadWriteOnce:
-        resources:
-          requests:
-            storage: 1Gi
-        storageClassName: standard
+    # volumeClaimTemplate:
+    #   metadata:
+    #     name: postgresql-cluster-pvc
+    #   spec:
+    #     accessModes:
+    #       - ReadWriteOnce:
+    #     resources:
+    #       requests:
+    #         storage: 1Gi
+    #     storageClassName: standard
   backup:
     barmanObjectStore:
       destinationPath: s3://saas-prod-bucket/
