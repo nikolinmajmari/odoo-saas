@@ -1,4 +1,4 @@
-isProduction: false 
+isProduction: true
 isStagging: false 
 isDev: false
 namespace: saas-prod
