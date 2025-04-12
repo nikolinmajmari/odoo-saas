@@ -21,15 +21,17 @@ spec:
             - name: POSTGRES_DB
               value: "postgres"
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgresql-cluster-postgres  # Secret name
-                  key: username    # Key in the secret
+              value: odoo
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: postgresql-cluster-postgres  # Secret name
+              #     key: username    # Key in the secret
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgresql-cluster-postgres  # Secret name
-                  key: password    # Key in the secret
+              value: odoo
+              # valueFrom:
+              #   secretKeyRef:
+              #     name: postgresql-cluster-postgres  # Secret name
+              #     key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
           ports:

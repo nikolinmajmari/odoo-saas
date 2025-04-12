@@ -8,7 +8,7 @@ spec:
   postgresql:
     version: "14"
     # Specify the default user and password for the PostgreSQL cluster
-    user: "ODOO"
+    user: "odoo"
     password: "odoo"  # set the password for the user
     database: "postgres"  # Optional: specify the default database
   # Example of rolling update strategy:
