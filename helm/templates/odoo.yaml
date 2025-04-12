@@ -12,6 +12,14 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.35
+          command:
+            - /bin/sh
+            - -c
+            - "until nc -z -v -w30 postgresql-cluster-pvc-rw 5432; do echo 'Waiting for database...'; sleep 5; done;"
+      
       containers:
         - name: {{ .Values.name }}
           image: nikolinmajmari/{{ .Values.image.name }}:{{ .Values.image.tag }}
