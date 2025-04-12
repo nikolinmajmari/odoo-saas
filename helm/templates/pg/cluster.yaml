@@ -9,6 +9,7 @@ spec:
   bootstrap:
     initdb:
       database: ""
+      owner: app
       secret:
         name: postgresql-cluster-app
   # Example of rolling update strategy:
