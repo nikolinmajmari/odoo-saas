@@ -10,7 +10,6 @@ spec:
     # Specify the default user and password for the PostgreSQL cluster
     user: "odoo"
     password: "odoo"  # set the password for the user
-    database: "postgres"  # Optional: specify the default database
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)

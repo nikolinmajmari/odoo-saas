@@ -24,13 +24,13 @@ spec:
               value: odoo
               # valueFrom:
               #   secretKeyRef:
-              #     name: postgresql-cluster-postgres  # Secret name
+              #     name: postgresql-cluster-app  # Secret name
               #     key: username    # Key in the secret
             - name: PASSWORD
               value: odoo
               # valueFrom:
               #   secretKeyRef:
-              #     name: postgresql-cluster-postgres  # Secret name
+              #     name: postgresql-cluster-app  # Secret name
               #     key: password    # Key in the secret
             - name: HOST
               value: "postgresql-cluster-rw"
