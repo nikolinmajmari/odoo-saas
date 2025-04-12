@@ -44,10 +44,10 @@ spec:
       s3Credentials:
         accessKeyId:
           name: minio-creds  # Secret name
-          key: access-key     # Key inside the secret
+          key: accesskey     # Key inside the secret
         secretAccessKey:
           name: minio-creds  # Secret name
-          key: secret-key    # Key inside the secret
+          key: secretkey    # Key inside the secret
   # volumeMounts:
   #   - name: postgresql-backup-pvc
   #     mountPath: "/var/lib/postgresql/backup"
