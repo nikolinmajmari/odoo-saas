@@ -8,7 +8,6 @@ spec:
   enableSuperuserAccess: true
   bootstrap:
     initdb:
-      owner: odoo
       secret:
         name: postgresql-cluster-odoo
       postInitSQL:
