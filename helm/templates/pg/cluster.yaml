@@ -33,7 +33,7 @@ spec:
         storageClassName: standard
   backup:
     barmanObjectStore:
-      destinationPath: s3://saas-prod-bucker/
+      destinationPath: s3://saas-prod-bucket/
       endpointURL: http://minio-service:9000
       s3Credentials:
         accessKeyId:
