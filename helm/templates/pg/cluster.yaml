@@ -5,6 +5,11 @@ metadata:
   namespace:  {{ .Values.namespace }}
 spec:
   instances: 1
+  enableSuperuserAccess: true
+  bootstrap:
+    initdb:
+      secret:
+        name: postgresql-cluster-app
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
   #                 replicas have been upgraded (default)
