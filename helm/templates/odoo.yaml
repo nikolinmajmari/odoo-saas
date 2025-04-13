@@ -46,7 +46,7 @@ spec:
                   name: postgresql-cluster-odoo  # Secret name
                   key: password    # Key in the secret
             - name: HOST
-              value: "postgresql-cluster-rw"
+              value: "postgresql-cluster-rw-lost"
           ports:
             - containerPort: 8069
 {{- if not .Values.isProduction }}
