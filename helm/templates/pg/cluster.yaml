@@ -1,12 +1,3 @@
-{{- if .Values.isProduction }}
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: postgresql-cluster-pvc
-spec:
-  persistentVolumeReclaimPolicy: Retain
----
-{{- end}}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
