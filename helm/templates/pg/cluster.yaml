@@ -53,6 +53,23 @@ spec:
         secretAccessKey:
           name: minio-creds  # Secret name
           key: secretkey    # Key inside the secret
+{{- if not .Values.isProduction }}
+  externalClusters:
+    - name: clusterBackup
+      barmanObjectStore:
+        destinationPath: s3://saas-prod-bucket/
+        endpointURL: http://minio-service.saas-prod.svc.cluster.local:9000
+        s3Credentials:
+          accessKeyId:
+            name: minio-creds
+            key: accesskey
+          secretAccessKey:
+            name: minio-creds
+            key: secretkey
+        wal:
+          maxParallel: 8
+{{- end }}
+  
   # volumeMounts:
   #   - name: postgresql-backup-pvc
   #     mountPath: "/var/lib/postgresql/backup"
