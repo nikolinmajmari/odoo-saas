@@ -18,7 +18,7 @@ spec:
       - ALTER ROLE odoo with CREATEROLE
 {{- else }}
     recovery:
-      source: postgresql-cluster
+      source: clusterBackup
 {{- end}}
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
