@@ -25,4 +25,4 @@ spec:
         repoURL: 'https://github.com/nikolinmajmari/odoo-saas.git'
         helm:
           valueFiles:
-          - "/env/{{path.basename}}/values.yaml"
+          - "/env-staging/{{path.basename}}/values.yaml"
