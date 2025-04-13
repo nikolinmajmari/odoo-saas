@@ -5,5 +5,5 @@ namespace: saas-dev-a
 version: latest
 image: 
   name: odoo_estate
-  tag: 0.0.4-pr2
+  tag: 0.0.2
 name: saas-dev
