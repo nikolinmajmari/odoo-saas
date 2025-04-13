@@ -19,6 +19,15 @@ spec:
             - /bin/sh
             - -c
             - "until nc -z -v -w30 postgresql-cluster-rw 5432; do echo 'Waiting for database...'; sleep 5; done;"
+        - name: clone-data
+          image:  busybox:1.35  # Or another image with cp/rsync tools
+          command: ["/bin/sh", "-c", "cp -r /source/filestore/* /shared/filestore/"]
+          volumeMounts:
+            - name: odoo-data
+              mountPath: /shared  # Mount the shared volume
+            - name: saas-prod-www-pvc
+              mountPath: /source  # Mount the source PVC to /source
+              readOnly: true  # Mount the PVC as read-only
       
       containers:
         - name: {{ .Values.name }}
@@ -46,7 +55,11 @@ spec:
               mountPath: /var/lib/odoo
       volumes:
         - name: odoo-data
-          emptyDir: {}  # Creates temporary storage for the pod lifecycle
+          emptyDir: {}  # Shared volume to store copied data
+        - name: saas-prod-www-pvc
+          persistentVolumeClaim:
+            claimName: www-pvc  # PVC in the saas-prod namespace
+          namespace: saas-prod  # Specify the saas-prod namespace
 {{- else }}
           volumeMounts:
             - name: www
