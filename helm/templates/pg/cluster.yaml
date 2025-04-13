@@ -18,7 +18,7 @@ spec:
       - ALTER ROLE odoo with CREATEROLE
 {{- else }}
     recovery:
-      source: clusterBackup
+      source: postgresql-cluster
 {{- end}}
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
@@ -57,7 +57,7 @@ spec:
 {{- end }}
 {{- if not .Values.isProduction }}
   externalClusters:
-    - name: clusterBackup
+    - name: postgresql-cluster
       barmanObjectStore:
         destinationPath: s3://saas-prod-bucket/
         endpointURL: http://minio-service.saas-prod.svc.cluster.local:9000
