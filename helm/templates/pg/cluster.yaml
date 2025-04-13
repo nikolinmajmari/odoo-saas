@@ -42,6 +42,7 @@ spec:
             storage: 1Gi
         storageClassName: standard
     {{- end }}
+{{- if .Values.isProduction }}
   backup:
     barmanObjectStore:
       destinationPath: s3://saas-prod-bucket/
@@ -53,6 +54,7 @@ spec:
         secretAccessKey:
           name: minio-creds  # Secret name
           key: secretkey    # Key inside the secret
+{{- end }}
 {{- if not .Values.isProduction }}
   externalClusters:
     - name: clusterBackup
