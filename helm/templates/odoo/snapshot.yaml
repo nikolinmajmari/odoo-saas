@@ -5,7 +5,7 @@ metadata:
   name: www-pvc-snapshot
   namespace: saas-prod
 spec:
-  volumeSnapshotClassName: standard-snapshot  # Adjust to your CSI snapshot class
+  volumeSnapshotClassName: csi-hostpath-snapclass  # Adjust to your CSI snapshot class
   source:
     persistentVolumeClaimName: www-pvc
 {{ else }}
