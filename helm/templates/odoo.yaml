@@ -78,6 +78,8 @@ spec:
       storage: 1Gi
 {{ else }}
   source:
+    accessModes:
+    - ReadWriteOnce
     volumeSnapshotContentName: snapcontent-dbac1fa9-30aa-47cf-80d8-5a32a66e1f36
 {{ end }}
 ---
