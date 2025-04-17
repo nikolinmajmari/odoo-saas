@@ -69,7 +69,7 @@ metadata:
   name: www-pvc
   namespace: {{ .Values.namespace }}
 spec:
-  storageClassName: manual
+  storageClassName: minio-s3
   accessModes:
     - ReadWriteOnce
   resources:
