@@ -1,11 +1,16 @@
 {{ if .Values.isProduction }}
-apiVersion: snapshot.storage.k8s.io/v1
-kind: VolumeSnapshot
+apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: www-pvc-snapshot
-  namespace: {{ .Values.namespace }}
+  name: saas-filestore
+  labels:
+    type: local
 spec:
-  volumeSnapshotClassName: csi-hostpath-snapclass
-  source:
-    persistentVolumeClaimName: www-pvc
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/saas1/filestore"
 {{ end }}
