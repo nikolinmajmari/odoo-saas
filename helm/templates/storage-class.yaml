@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: minio-s3
+provisioner: csi-s3
+parameters:
+  mounter: s3fs
+  bucket: filestore
+  endpoint: http://minio-service:9000
+  storage.kubernetes.io/csiProvisionerSecretName: minio-creds
+  storage.kubernetes.io/csiProvisionerSecretNamespace: {{ .Values.namespace }}

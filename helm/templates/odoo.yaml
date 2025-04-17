@@ -69,19 +69,13 @@ metadata:
   name: www-pvc
   namespace: {{ .Values.namespace }}
 spec:
-{{ if .Values.isProduction }}
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
-  storageClassName: "csi-hostpath-sc"  # Minikube's default storage class
   resources:
     requests:
-      storage: 1Gi
-{{ else }}
-  source:
-    accessModes:
-    - ReadWriteOnce
-    volumeSnapshotContentName: snapcontent-dbac1fa9-30aa-47cf-80d8-5a32a66e1f36
-{{ end }}
+      storage: 3Gi
+
 ---
 apiVersion: v1
 kind: Service
