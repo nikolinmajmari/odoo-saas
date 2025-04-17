@@ -55,18 +55,6 @@ spec:
               value: "postgresql-cluster-rw"
           ports:
             - containerPort: 8069
-{{- if not .Values.isProduction }}
-      #     volumeMounts:
-      #       - name: odoo-data
-      #         mountPath: /var/lib/odoo
-      # volumes:
-      #   - name: odoo-data
-      #     emptyDir: {}  # Shared volume to store copied data
-      #   - name: saas-prod-www-pvc
-      #     persistentVolumeClaim:
-      #       claimName: www-pvc  # PVC in the saas-prod namespace
-      #     namespace: saas-prod  # Specify the saas-prod namespace
-{{- else }}
           volumeMounts:
             - name: www
               mountPath: /var/lib/odoo/
@@ -81,13 +69,17 @@ metadata:
   name: www-pvc
   namespace: {{ .Values.namespace }}
 spec:
+{{ if .Values.isProduction }}
   accessModes:
     - ReadWriteOnce
   storageClassName: "csi-hostpath-sc"  # Minikube's default storage class
   resources:
     requests:
       storage: 1Gi
-{{- end }}
+{{ else }}
+  source:
+    volumeSnapshotContentName: snapcontent-dbac1fa9-30aa-47cf-80d8-5a32a66e1f36
+{{ end }}
 ---
 apiVersion: v1
 kind: Service
