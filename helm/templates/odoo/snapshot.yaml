@@ -1,0 +1,26 @@
+{{ if .Values.isProduction }}
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: www-pvc-snapshot
+  namespace: saas-prod
+spec:
+  volumeSnapshotClassName: standard-snapshot  # Adjust to your CSI snapshot class
+  source:
+    persistentVolumeClaimName: www-pvc
+{{ else }}
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-www-pvc-clone
+  namespace: saas-prod
+spec:
+  from:
+    - group: ""
+      kind: PersistentVolumeClaim
+      namespace:  {{ .Values.namespace }}
+  to:
+    - group: snapshot.storage.k8s.io
+      kind: VolumeSnapshot
+      name: www-pvc-snapshot
+{{ end }}
