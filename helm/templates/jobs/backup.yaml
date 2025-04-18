@@ -1,0 +1,34 @@
+{{- if .Values.isProduction }}
+
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: saas-backup-job
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: "0 */15 * * *"
+  jobTemplate: 
+    spec:
+      containers:
+        - name: backup 
+          image: bitnami/kubectl:latest
+          command:
+          - /bin/sh
+          - -c
+          - |
+          # triger cnpg backup 
+          echo "Triggering cloud native postgres backup"
+          kubectl apply -f -<<EOF
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: postgress-backup
+  namespace:  {{ .Values.namespace }}
+spec:
+  schedule: "0 */15 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: postgresql-cluster
+EOF
+{{- end}}
