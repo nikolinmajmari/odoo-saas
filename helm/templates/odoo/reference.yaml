@@ -12,5 +12,4 @@ spec:
   to:
     - group: snapshot.storage.k8s.io
       kind: VolumeSnapshot
-      name: www-pvc-snapshot
 {{ end }}
