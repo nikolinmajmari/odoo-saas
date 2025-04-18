@@ -11,5 +11,5 @@ spec:
       namespace:  saas-staging
   to:
     - group: snapshot.storage.k8s.io
-      kind: VolumeSnapshot
+      kind: VolumeSnapshotf
 {{ end }}
