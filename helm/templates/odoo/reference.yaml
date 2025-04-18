@@ -1,3 +1,4 @@
+{{ if .Values.isProduction }}
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
@@ -12,3 +13,4 @@ spec:
     - group: snapshot.storage.k8s.io
       kind: VolumeSnapshot
       name: www-pvc-snapshot
+{{ end }}

@@ -8,20 +8,4 @@ spec:
   volumeSnapshotClassName: csi-hostpath-snapclass  # Adjust to your CSI snapshot class
   source:
     persistentVolumeClaimName: www-pvc
----
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: allow-www-pvc-clone
-  namespace: saas-prod
-spec:
-  from:
-    - group: ""
-      kind: PersistentVolumeClaim
-      namespace:  saas-stagging
-  to:
-    - group: snapshot.storage.k8s.io
-      kind: VolumeSnapshot
-      name: www-pvc-snapshot
----
 {{ end }}

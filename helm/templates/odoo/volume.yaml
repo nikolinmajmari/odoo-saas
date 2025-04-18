@@ -13,6 +13,7 @@ spec:
 {{ if .Values.isStagging }}
   dataSource:
     name: www-pvc-snapshot
+    namespaces: saas-prod
     kind: VolumeSnapshot
     apiGroup: snapshot.storage.k8s.io
 {{ end }}
