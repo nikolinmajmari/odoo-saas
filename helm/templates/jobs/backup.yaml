@@ -33,6 +33,5 @@ spec:
                   echo "Waiting for PostgreSQL backup to finish..."
                   sleep 30
           restartPolicy: OnFailure
-          serviceAccountName: backup-job-sa
 
 {{- end }}
