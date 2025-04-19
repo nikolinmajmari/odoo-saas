@@ -28,6 +28,9 @@ spec:
                     namespace: {{ .Values.namespace }}
                     labels:
                       app: saas-prod
+                      cnpg.io/cluster: postgresql-cluster
+                      cnpg.io/immediateBackup: 'true'
+                      cnpg.io/scheduled-backup: postgress-backup
                   spec:
                     cluster:
                       name: postgresql-cluster
