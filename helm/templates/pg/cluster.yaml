@@ -57,7 +57,6 @@ spec:
           name: minio-creds  # Secret name
           key: secretkey    # Key inside the secret
 {{- end }}
-{{- if not .Values.isProduction }}
   externalClusters:
     - name: postgresql-cluster
       barmanObjectStore:
@@ -72,7 +71,6 @@ spec:
             key: secretkey
         wal:
           maxParallel: 8
-{{- end }}
   
   # volumeMounts:
   #   - name: postgresql-backup-pvc
