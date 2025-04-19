@@ -31,7 +31,22 @@ spec:
                   EOF
 
                   echo "Waiting for PostgreSQL backup to finish..."
-                  sleep 30
+
+                  echo "Starting volume snapshot creation"
+                  
+                  kubectl apply -f - <<EOF
+                  apiVersion: snapshot.storage.k8s.io/v1
+                  kind: VolumeSnapshot
+                  metadata:
+                    name: www-pvc-snapshot
+                    namespace: saas-prod
+                  spec:
+                    volumeSnapshotClassName: csi-hostpath-snapclass  # Adjust to your CSI snapshot class
+                    source:
+                      persistentVolumeClaimName: www-pvc
+                  EOF
+
+                  echo "Backup and Snapshot completed!"
           restartPolicy: OnFailure
           serviceAccountName: backup-job-sa
 
