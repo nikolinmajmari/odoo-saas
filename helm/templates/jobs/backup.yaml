@@ -1,6 +1,5 @@
 {{- if .Values.isProduction }}
 
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -8,31 +7,31 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   schedule: "0 */15 * * *"
-  jobTemplate: 
+  jobTemplate:
     spec:
-      containers:
-        - name: backup 
-          image: bitnami/kubectl:latest
-          command:
-          - /bin/sh
-          - -c
-          - |
-                # Trigger CloudNativePostgreSQL Backup using ScheduledBackup API
-                echo "Triggering CloudNativePostgreSQL backup..."
-                kubectl apply -f - <<EOF
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: postgress-backup
-  namespace: saas-prod
-spec:
-  schedule: "0 */15 * * *"  # Adjust this as per your need
-  backupOwnerReference: self
-EOF
+      template:
+        spec:
+          containers:
+            - name: backup
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Triggering CloudNativePostgreSQL backup..."
+                  kubectl apply -f - <<EOF
+                  apiVersion: postgresql.cnpg.io/v1
+                  kind: ScheduledBackup
+                  metadata:
+                    name: postgress-backup
+                    namespace: saas-prod
+                  spec:
+                    schedule: "0 */15 * * *"
+                    backupOwnerReference: self
+                  EOF
 
-                # Wait until the backup is completed (optional, for syncing with snapshot)
-                echo "Waiting for PostgreSQL backup to finish..."
-
-
-
+                  echo "Waiting for PostgreSQL backup to finish..."
+                  sleep 30
+          restartPolicy: OnFailure
+          serviceAccountName: backup-job-sa
 {{- end }}
