@@ -21,13 +21,13 @@ spec:
                   echo "Triggering CloudNativePostgreSQL backup..."
                   kubectl apply -f - <<EOF
                   apiVersion: postgresql.cnpg.io/v1
-                  kind: ScheduledBackup
+                  kind: Backup
                   metadata:
-                    name: postgress-backup
-                    namespace: saas-prod
+                    name: postgres-backup
+                    namespace: {{ .Values.namespace }}
                   spec:
-                    schedule: "0 */15 * * *"
-                    backupOwnerReference: self
+                    cluster:
+                      name: postgresql-cluster
                   EOF
 
                   echo "Waiting for PostgreSQL backup to finish..."
