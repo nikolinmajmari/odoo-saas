@@ -8,14 +8,16 @@ spec:
   enableSuperuserAccess: true
   bootstrap:
 {{- if .Values.isProduction }}
-    initdb:
-      secret:
-        name: postgresql-cluster-odoo
-      postInitSQL:
-      - CREATE USER odoo WITH PASSWORD 'odoo'
-      - GRANT ALL ON SCHEMA public TO odoo
-      - ALTER ROLE odoo with CREATEDB
-      - ALTER ROLE odoo with CREATEROLE
+    # initdb:
+    #   secret:
+    #     name: postgresql-cluster-odoo
+    #   postInitSQL:
+    #   - CREATE USER odoo WITH PASSWORD 'odoo'
+    #   - GRANT ALL ON SCHEMA public TO odoo
+    #   - ALTER ROLE odoo with CREATEDB
+    #   - ALTER ROLE odoo with CREATEROLE
+    recovery:
+      source: postgresql-cluster
 {{- else }}
     recovery:
       source: postgresql-cluster
