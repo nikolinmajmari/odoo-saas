@@ -23,7 +23,7 @@ spec:
       source: postgresql-cluster
       recoveryTarget:
         # Time base target for the recovery
-        targetTime: "2025-04-19T11:07:44Z"  # or a few seconds after
+        targetTime: "2025-04-19T11:08:00Z"  # or a few seconds after
 {{- end}}
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
