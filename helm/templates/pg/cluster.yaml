@@ -21,9 +21,9 @@ spec:
 {{- else }}
     recovery:
       source: postgresql-cluster
-      recoveryTarget:
+      #recoveryTarget:
         # Time base target for the recovery
-        targetTime: "2024-04-19 12:45:00.00000+02"
+        #targetTime: "2024-04-19 12:45:00.00000+02"
 {{- end}}
   # Example of rolling update strategy:
   # - unsupervised: automated update of the primary once all
