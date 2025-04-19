@@ -26,6 +26,8 @@ spec:
                   metadata:
                     name: postgres-backup-$TIMESTAMP
                     namespace: {{ .Values.namespace }}
+                    labels:
+                      app: saas-prod
                   spec:
                     cluster:
                       name: postgresql-cluster
@@ -41,6 +43,8 @@ spec:
                   metadata:
                     name: www-pvc-snapshot-$TIMESTAMP
                     namespace: saas-prod
+                    labels:
+                      app: saas-prod
                   spec:
                     volumeSnapshotClassName: csi-hostpath-snapclass
                     source:
