@@ -1,5 +1,4 @@
 {{- if .Values.isProduction }}
-
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -18,12 +17,14 @@ spec:
                 - /bin/sh
                 - -c
                 - |
+                  TIMESTAMP=$(date +%Y%m%d%H%M%S)
+
                   echo "Triggering CloudNativePostgreSQL backup..."
-                  kubectl apply -f - <<EOF
+                  cat <<EOF | kubectl apply -f -
                   apiVersion: postgresql.cnpg.io/v1
                   kind: Backup
                   metadata:
-                    name: postgres-backup
+                    name: postgres-backup-\$TIMESTAMP
                     namespace: {{ .Values.namespace }}
                   spec:
                     cluster:
@@ -31,17 +32,17 @@ spec:
                   EOF
 
                   echo "Waiting for PostgreSQL backup to finish..."
+                  sleep 30  # Optional: adjust as needed
 
                   echo "Starting volume snapshot creation"
-
                   cat <<EOF | kubectl apply -f -
                   apiVersion: snapshot.storage.k8s.io/v1
                   kind: VolumeSnapshot
                   metadata:
-                    name: www-pvc-snapshot
+                    name: www-pvc-snapshot-\$TIMESTAMP
                     namespace: saas-prod
                   spec:
-                    volumeSnapshotClassName: csi-hostpath-snapclass  # Adjust to your CSI snapshot class
+                    volumeSnapshotClassName: csi-hostpath-snapclass
                     source:
                       persistentVolumeClaimName: www-pvc
                   EOF
@@ -49,5 +50,4 @@ spec:
                   echo "Backup and Snapshot completed!"
           restartPolicy: OnFailure
           serviceAccountName: backup-job-sa
-
 {{- end }}
