@@ -1,0 +1,59 @@
+{{- if .Values.isProduction }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: environment-backup-
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    spec:
+      containers:
+        - name: backup
+          image: bitnami/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              TIMESTAMP=$(date +%Y%m%d%H%M%S)
+
+              echo "Triggering CloudNativePostgreSQL backup..."
+              cat <<EOF | kubectl apply -f -
+              apiVersion: postgresql.cnpg.io/v1
+              kind: Backup
+              metadata:
+                name: postgres-backup-$TIMESTAMP
+                namespace: {{ .Values.namespace }}
+                labels:
+                  app: saas-prod
+                  cnpg.io/cluster: postgresql-cluster
+                  cnpg.io/immediateBackup: 'true'
+                  cnpg.io/scheduled-backup: postgress-backup
+              spec:
+                cluster:
+                  name: postgresql-cluster
+              EOF
+
+              echo "Waiting for PostgreSQL backup to finish..."
+              sleep 30  # Optional: adjust as needed
+
+              echo "Starting volume snapshot creation"
+              cat <<EOF | kubectl apply -f -
+              apiVersion: snapshot.storage.k8s.io/v1
+              kind: VolumeSnapshot
+              metadata:
+                name: www-pvc-snapshot-$TIMESTAMP
+                namespace: saas-prod
+                labels:
+                  app: saas-prod
+              spec:
+                volumeSnapshotClassName: csi-hostpath-snapclass
+                source:
+                  persistentVolumeClaimName: www-pvc
+              EOF
+
+              echo "Backup and Snapshot completed!"
+      restartPolicy: OnFailure
+      serviceAccountName: backup-job-sa
+{{- end }}
