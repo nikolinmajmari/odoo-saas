@@ -1,12 +1,12 @@
 {{- if .Values.isProduction }}
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: postgress-backup
-  namespace:  {{ .Values.namespace }}
-spec:
-  schedule: "0 */15 * * *"
-  backupOwnerReference: self
-  cluster:
-    name: postgresql-cluster
+# apiVersion: postgresql.cnpg.io/v1
+# kind: ScheduledBackup
+# metadata:
+#   name: postgress-backup
+#   namespace:  {{ .Values.namespace }}
+# spec:
+#   schedule: "0 */15 * * *"
+#   backupOwnerReference: self
+#   cluster:
+#     name: postgresql-cluster
 {{- end}}
